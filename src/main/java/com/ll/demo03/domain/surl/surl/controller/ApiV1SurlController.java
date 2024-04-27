@@ -1,6 +1,7 @@
 package com.ll.demo03.domain.surl.surl.controller;
 
 import com.ll.demo03.domain.member.member.entity.Member;
+import com.ll.demo03.domain.surl.surl.dto.SurlDto;
 import com.ll.demo03.domain.surl.surl.entity.Surl;
 import com.ll.demo03.domain.surl.surl.service.SurlService;
 import com.ll.demo03.global.exceptions.GlobalException;
@@ -34,7 +35,7 @@ public class ApiV1SurlController {
     @AllArgsConstructor
     @Getter
     public static class SurlAddRespBody {
-        private Surl item;
+        private SurlDto item;
     }
 
     @PostMapping("")
@@ -46,7 +47,9 @@ public class ApiV1SurlController {
         RsData<Surl> addRs = surlService.add(member, reqBody.body, reqBody.url);
 
         return addRs.newDataOf(
-                new SurlAddRespBody(addRs.getData())
+                new SurlAddRespBody(
+                        new SurlDto(addRs.getData())
+                )
         );
     }
 
@@ -54,7 +57,7 @@ public class ApiV1SurlController {
     @AllArgsConstructor
     @Getter
     public static class SurlGetRespBody {
-        private Surl item;
+        private SurlDto item;
     }
 
     @GetMapping("/{id}")
@@ -64,7 +67,9 @@ public class ApiV1SurlController {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
 
         return RsData.of(
-                new SurlGetRespBody(surl)
+                new SurlGetRespBody(
+                        new SurlDto(surl)
+                )
         );
     }
 }

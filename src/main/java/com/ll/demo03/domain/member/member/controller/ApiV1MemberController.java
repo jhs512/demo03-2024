@@ -1,5 +1,6 @@
 package com.ll.demo03.domain.member.member.controller;
 
+import com.ll.demo03.domain.member.member.dto.MemberDto;
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
 import com.ll.demo03.global.rsData.RsData;
@@ -35,7 +36,7 @@ public class ApiV1MemberController {
     @AllArgsConstructor
     @Getter
     public static class MemberJoinRespBody {
-        Member item;
+        MemberDto item;
     }
 
     @PostMapping("")
@@ -45,7 +46,11 @@ public class ApiV1MemberController {
         RsData<Member> joinRs = memberService.join(reqBody.username, reqBody.password, reqBody.nickname);
 
         return joinRs.newDataOf(
-                new MemberJoinRespBody(joinRs.getData())
+                new MemberJoinRespBody(
+                        new MemberDto(
+                                joinRs.getData()
+                        )
+                )
         );
     }
 }
