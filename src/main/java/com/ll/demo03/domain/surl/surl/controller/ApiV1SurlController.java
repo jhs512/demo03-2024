@@ -28,6 +28,7 @@ public class ApiV1SurlController {
     private final SurlService surlService;
     private final Rq rq;
 
+
     @AllArgsConstructor
     @Getter
     public static class SurlAddReqBody {
@@ -72,6 +73,12 @@ public class ApiV1SurlController {
     ) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
 
+        Member member = rq.getMember();
+
+        if (!surl.getAuthor().equals(member)) {
+            throw new GlobalException("403-1", "권한이 없습니다.");
+        }
+
         return RsData.of(
                 new SurlGetRespBody(
                         new SurlDto(surl)
@@ -109,8 +116,53 @@ public class ApiV1SurlController {
     ) {
         Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
 
+        Member member = rq.getMember();
+
+        if (!surl.getAuthor().equals(member)) {
+            throw new GlobalException("403-1", "권한이 없습니다.");
+        }
+
         surlService.delete(surl);
 
         return RsData.OK;
+    }
+
+
+    @AllArgsConstructor
+    @Getter
+    public static class SurlModifyReqBody {
+        @NotBlank
+        private String body;
+        @NotBlank
+        private String url;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SurlModifyRespBody {
+        private SurlDto item;
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public RsData<SurlModifyRespBody> modify(
+            @PathVariable long id,
+            @RequestBody @Valid SurlModifyReqBody reqBody
+    ) {
+        Surl surl = surlService.findById(id).orElseThrow(GlobalException.E404::new);
+
+        Member member = rq.getMember();
+
+        if (!surl.getAuthor().equals(member)) {
+            throw new GlobalException("403-1", "권한이 없습니다.");
+        }
+
+        RsData<Surl> modifyRs = surlService.modify(surl, reqBody.body, reqBody.url);
+
+        return modifyRs.newDataOf(
+                new SurlModifyRespBody(
+                        new SurlDto(modifyRs.getData())
+                )
+        );
     }
 }
