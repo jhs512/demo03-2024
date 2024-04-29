@@ -60,6 +60,8 @@ public class Rq {
 
     // 쿠키관련 시작
     private String getCookieValue(String cookieName, String defaultValue) {
+        if (req.getCookies() == null) return defaultValue;
+
         return Arrays.stream(req.getCookies())
                 .filter(cookie -> cookie.getName().equals(cookieName))
                 .findFirst()
@@ -70,6 +72,13 @@ public class Rq {
     public void removeCookie(String cookieName) {
         Cookie cookie = new Cookie(cookieName, null);
         cookie.setMaxAge(0);
+        cookie.setPath("/");
+        resp.addCookie(cookie);
+    }
+
+    public void setCookie(String actorUsername, String username) {
+        Cookie cookie = new Cookie(actorUsername, username);
+        cookie.setMaxAge(60 * 60 * 24 * 365);
         cookie.setPath("/");
         resp.addCookie(cookie);
     }
