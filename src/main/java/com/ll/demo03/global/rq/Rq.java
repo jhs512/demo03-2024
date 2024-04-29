@@ -4,11 +4,14 @@ import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
 import com.ll.demo03.global.exceptions.GlobalException;
 import com.ll.demo03.standard.dto.util.Ut;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
+
+import java.util.Arrays;
 
 @Component
 @RequestScope
@@ -22,8 +25,8 @@ public class Rq {
     public Member getMember() {
         if (member != null) return member;
 
-        String actorUsername = req.getParameter("actorUsername");
-        String actorPassword = req.getParameter("actorPassword");
+        String actorUsername = getCookieValue("actorUsername", null);
+        String actorPassword = getCookieValue("actorPassword", null);
 
         if (actorUsername == null || actorPassword == null) {
             String authorization = req.getHeader("Authorization");
@@ -44,6 +47,14 @@ public class Rq {
         member = loginedMember;
 
         return loginedMember;
+    }
+
+    private String getCookieValue(String cookieName, String defaultValue) {
+        return Arrays.stream(req.getCookies())
+                .filter(cookie -> cookie.getName().equals(cookieName))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(defaultValue);
     }
 
     public String getCurrentUrlPath() {
