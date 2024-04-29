@@ -49,6 +49,16 @@ public class Rq {
         return loginedMember;
     }
 
+    public String getCurrentUrlPath() {
+        return req.getRequestURI();
+    }
+
+    public void setStatusCode(int statusCode) {
+        resp.setStatus(statusCode);
+    }
+
+
+    // 쿠키관련 시작
     private String getCookieValue(String cookieName, String defaultValue) {
         return Arrays.stream(req.getCookies())
                 .filter(cookie -> cookie.getName().equals(cookieName))
@@ -57,11 +67,11 @@ public class Rq {
                 .orElse(defaultValue);
     }
 
-    public String getCurrentUrlPath() {
-        return req.getRequestURI();
+    public void removeCookie(String cookieName) {
+        Cookie cookie = new Cookie(cookieName, null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        resp.addCookie(cookie);
     }
-
-    public void setStatusCode(int statusCode) {
-        resp.setStatus(statusCode);
-    }
+    // 쿠키관련 끝
 }
