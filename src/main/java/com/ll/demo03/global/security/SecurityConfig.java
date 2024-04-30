@@ -19,6 +19,17 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated()
                 )
+                .headers(
+                        headers ->
+                                headers.frameOptions(
+                                        frameOptions ->
+                                                frameOptions.sameOrigin()
+                                )
+                )
+                .csrf(
+                        csrf ->
+                                csrf.disable()
+                )
                 .formLogin(
                         formLogin ->
                                 formLogin
