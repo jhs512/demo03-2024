@@ -1,4 +1,4 @@
-package com.ll.demo03.standard.dto.util;
+package com.ll.demo03.standard.util;
 
 public class Ut {
     public static class str {
