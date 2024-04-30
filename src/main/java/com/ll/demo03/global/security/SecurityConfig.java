@@ -1,5 +1,7 @@
 package com.ll.demo03.global.security;
 
+import com.ll.demo03.global.rsData.RsData;
+import com.ll.demo03.standard.util.Ut;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +43,20 @@ public class SecurityConfig {
                         formLogin ->
                                 formLogin
                                         .permitAll()
+                )
+                .exceptionHandling(
+                        exceptionHandling -> exceptionHandling
+                                .authenticationEntryPoint(
+                                        (request, response, authException) -> {
+                                            response.setContentType("application/json;charset=UTF-8");
+                                            response.setStatus(403);
+                                            response.getWriter().write(
+                                                    Ut.json.toString(
+                                                            RsData.of("403-1", request.getRequestURI() + ", " + authException.getLocalizedMessage())
+                                                    )
+                                            );
+                                        }
+                                )
                 )
                 .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
