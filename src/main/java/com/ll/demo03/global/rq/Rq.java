@@ -2,6 +2,7 @@ package com.ll.demo03.global.rq;
 
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
+import com.ll.demo03.global.app.AppConfig;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -79,7 +80,11 @@ public class Rq {
     }
 
     private String getSiteCookieDomain() {
-        return "localhost";
+        String cookieDomain = AppConfig.getSiteCookieDomain();
+
+        if (cookieDomain.equals("localhost")) return cookieDomain;
+
+        return "." + cookieDomain;
     }
     // 쿠키관련 끝
 }
