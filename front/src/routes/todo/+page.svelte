@@ -44,6 +44,10 @@
 		form.body.focus();
 	}
 
+	function deleteTodo(todo: Todo) {
+		todos.splice(todos.indexOf(todo), 1);
+	}
+
 	$effect(() => {
 		console.log('todos: 시작');
 		for (const todo of todos) {
@@ -63,21 +67,22 @@
 	});
 </script>
 
-<h1>할일 앱</h1>
+<h1>할 일 앱</h1>
 
-<h2>할일 추가</h2>
+<h2>할 일 추가</h2>
 <form on:submit|preventDefault={addTodo}>
-	<input type="text" name="body" placeholder="할일을 입력해주세요." />
+	<input type="text" name="body" placeholder="할일을 입력해주세요." autocomplete="off" />
 	<button type="submit">추가</button>
 </form>
 
-<h2>할일 리스트</h2>
+<h2>할 일 리스트</h2>
 
 <ul>
 	{#each todos as todo (todo.id)}
 		<li>
 			<input type="checkbox" bind:checked={todo.done} />
 			{todo.body}
+			<button type="button" on:click|preventDefault={() => deleteTodo(todo)}>삭제</button>
 		</li>
 	{/each}
 </ul>
