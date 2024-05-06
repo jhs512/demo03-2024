@@ -2,10 +2,12 @@ package com.ll.demo03.global.rq;
 
 import com.ll.demo03.domain.member.member.entity.Member;
 import com.ll.demo03.domain.member.member.service.MemberService;
+import com.ll.demo03.global.app.AppConfig;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
@@ -51,18 +53,38 @@ public class Rq {
                 .orElse(defaultValue);
     }
 
-    public void removeCookie(String cookieName) {
-        Cookie cookie = new Cookie(cookieName, null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        resp.addCookie(cookie);
+    public void removeCookie(String name) {
+        ResponseCookie cookie = ResponseCookie.from(name)
+                .path("/")
+                .maxAge(0)
+                .domain(getSiteCookieDomain())
+                .sameSite("Strict")
+                .secure(true)
+                .httpOnly(true)
+                .build();
+
+        resp.addHeader("Set-Cookie", cookie.toString());
     }
 
-    public void setCookie(String actorUsername, String username) {
-        Cookie cookie = new Cookie(actorUsername, username);
-        cookie.setMaxAge(60 * 60 * 24 * 365);
-        cookie.setPath("/");
-        resp.addCookie(cookie);
+    public void setCookie(String name, String value) {
+        ResponseCookie cookie = ResponseCookie.from(name, value)
+                .path("/")
+                .maxAge(60 * 60 * 24 * 365 * 100)
+                .domain(getSiteCookieDomain())
+                .sameSite("Strict")
+                .secure(true)
+                .httpOnly(true)
+                .build();
+
+        resp.addHeader("Set-Cookie", cookie.toString());
+    }
+
+    private String getSiteCookieDomain() {
+        String cookieDomain = AppConfig.getSiteCookieDomain();
+
+        if (cookieDomain.equals("localhost")) return "localhost";
+
+        return cookieDomain = "." + cookieDomain;
     }
     // 쿠키관련 끝
 }
