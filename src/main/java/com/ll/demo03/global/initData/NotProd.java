@@ -21,12 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Configuration
 @RequiredArgsConstructor
 public class NotProd {
-    @Lazy
-    @Autowired
-    private NotProd self;
     private final MemberService memberService;
     private final ArticleService articleService;
     private final SurlService surlService;
+    @Lazy
+    @Autowired
+    private NotProd self;
 
     @Bean
     @Order(4)

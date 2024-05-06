@@ -31,24 +31,6 @@ public class ApiV1MemberController {
     private final AuthTokenService authTokenService;
     private final Rq rq;
 
-
-    @AllArgsConstructor
-    @Getter
-    public static class MemberJoinReqBody {
-        @NotBlank
-        private String username;
-        @NotBlank
-        private String password;
-        @NotBlank
-        private String nickname;
-    }
-
-    @AllArgsConstructor
-    @Getter
-    public static class MemberJoinRespBody {
-        MemberDto item;
-    }
-
     @PostMapping("")
     @Transactional
     @Operation(summary = "회원가입")
@@ -64,22 +46,6 @@ public class ApiV1MemberController {
                         )
                 )
         );
-    }
-
-
-    @AllArgsConstructor
-    @Getter
-    public static class MemberLoginReqBody {
-        @NotBlank
-        private String username;
-        @NotBlank
-        private String password;
-    }
-
-    @AllArgsConstructor
-    @Getter
-    public static class MemberLoginRespBody {
-        MemberDto item;
     }
 
     @PostMapping("/login")
@@ -109,7 +75,6 @@ public class ApiV1MemberController {
         );
     }
 
-
     @DeleteMapping("/logout")
     @Transactional
     @Operation(summary = "로그아웃")
@@ -118,5 +83,37 @@ public class ApiV1MemberController {
         rq.removeCookie("actorPassword");
 
         return RsData.OK;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MemberJoinReqBody {
+        @NotBlank
+        private String username;
+        @NotBlank
+        private String password;
+        @NotBlank
+        private String nickname;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MemberJoinRespBody {
+        MemberDto item;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MemberLoginReqBody {
+        @NotBlank
+        private String username;
+        @NotBlank
+        private String password;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MemberLoginRespBody {
+        MemberDto item;
     }
 }
