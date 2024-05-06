@@ -2,4 +2,4 @@
 <a href="/about">설명</a>
 <a href="/home/links">링크들</a>
 
-<h1>메인</h1>
+<h1>설명</h1>
