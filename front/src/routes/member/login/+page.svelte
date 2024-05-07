@@ -1,4 +1,15 @@
 <script lang="ts">
+	import createClient from 'openapi-fetch';
+
+	import type { paths } from '$lib/backend/apiV1/schema';
+
+	type Client = ReturnType<typeof createClient<paths>>;
+
+	const client: Client = createClient<paths>({
+		baseUrl: import.meta.env.VITE_CORE_API_BASE_URL,
+		credentials: 'include'
+	});
+
 	async function submitLoginForm(this: HTMLFormElement) {
 		const form: HTMLFormElement = this;
 
@@ -18,18 +29,19 @@
 			return;
 		}
 
-		const rs = await fetch(`${import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/members/login`, {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
+		const { data, error } = await client.POST('/api/v1/members/login', {
+			body: {
 				username: form.username.value,
 				password: form.password.value
-			})
-		}).then((res) => res.json());
-		console.log(rs);
+			}
+		});
+
+		if (data) {
+			data.msg && alert(data.msg);
+			location.href = '/';
+		} else if (error) {
+			error.msg && alert(error.msg);
+		}
 	}
 </script>
 
