@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -103,8 +104,10 @@ public class ApiV1MemberController {
     public static class MemberJoinReqBody {
         @NotBlank
         private String username;
+
         @NotBlank
         private String password;
+
         @NotBlank
         private String nickname;
     }
@@ -112,6 +115,7 @@ public class ApiV1MemberController {
     @AllArgsConstructor
     @Getter
     public static class MemberJoinRespBody {
+        @NonNull
         MemberDto item;
     }
 
@@ -120,6 +124,7 @@ public class ApiV1MemberController {
     public static class MemberLoginReqBody {
         @NotBlank
         private String username;
+
         @NotBlank
         private String password;
     }
@@ -127,12 +132,14 @@ public class ApiV1MemberController {
     @AllArgsConstructor
     @Getter
     public static class MemberLoginRespBody {
+        @NonNull
         MemberDto item;
     }
 
     @AllArgsConstructor
     @Getter
     public static class MemberMeRespBody {
+        @NonNull
         MemberDto item;
     }
 }

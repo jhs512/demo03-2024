@@ -68,21 +68,21 @@ export interface components {
     };
     SurlDto: {
       /** Format: int64 */
-      id?: number;
+      id: number;
       /** Format: date-time */
-      createDate?: string;
+      createDate: string;
       /** Format: date-time */
-      modifyDate?: string;
+      modifyDate: string;
       /** Format: int64 */
-      authorId?: number;
-      authorName?: string;
-      body?: string;
-      url?: string;
+      authorId: number;
+      authorName: string;
+      body: string;
+      url: string;
       /** Format: int64 */
-      count?: number;
+      count: number;
     };
     SurlModifyRespBody: {
-      item?: components["schemas"]["SurlDto"];
+      item: components["schemas"]["SurlDto"];
     };
     SurlAddReqBody: {
       body: string;
@@ -96,7 +96,7 @@ export interface components {
       data: components["schemas"]["SurlAddRespBody"];
     };
     SurlAddRespBody: {
-      item?: components["schemas"]["SurlDto"];
+      item: components["schemas"]["SurlDto"];
     };
     MemberJoinReqBody: {
       username: string;
@@ -105,16 +105,16 @@ export interface components {
     };
     MemberDto: {
       /** Format: int64 */
-      id?: number;
+      id: number;
       /** Format: date-time */
-      createDate?: string;
+      createDate: string;
       /** Format: date-time */
-      modifyDate?: string;
-      username?: string;
-      nickname?: string;
+      modifyDate: string;
+      username: string;
+      nickname: string;
     };
     MemberJoinRespBody: {
-      item?: components["schemas"]["MemberDto"];
+      item: components["schemas"]["MemberDto"];
     };
     RsDataMemberJoinRespBody: {
       resultCode: string;
@@ -128,7 +128,7 @@ export interface components {
       password: string;
     };
     MemberLoginRespBody: {
-      item?: components["schemas"]["MemberDto"];
+      item: components["schemas"]["MemberDto"];
     };
     RsDataMemberLoginRespBody: {
       resultCode: string;
@@ -145,7 +145,7 @@ export interface components {
       data: components["schemas"]["SurlGetItemsRespBody"];
     };
     SurlGetItemsRespBody: {
-      items?: components["schemas"]["SurlDto"][];
+      items: components["schemas"]["SurlDto"][];
     };
     RsDataSurlGetRespBody: {
       resultCode: string;
@@ -155,10 +155,10 @@ export interface components {
       data: components["schemas"]["SurlGetRespBody"];
     };
     SurlGetRespBody: {
-      item?: components["schemas"]["SurlDto"];
+      item: components["schemas"]["SurlDto"];
     };
     MemberMeRespBody: {
-      item?: components["schemas"]["MemberDto"];
+      item: components["schemas"]["MemberDto"];
     };
     RsDataMemberMeRespBody: {
       resultCode: string;

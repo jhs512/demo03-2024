@@ -18,10 +18,13 @@ public class RsData<T> {
 
     @NonNull
     String resultCode;
+
     @NonNull
     int statusCode;
+
     @NonNull
     String msg;
+
     @NonNull
     T data;
 
