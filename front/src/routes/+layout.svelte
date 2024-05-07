@@ -1,11 +1,21 @@
 <script lang="ts">
-	async function logout() {
-		const rs = await fetch(`${import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/members/logout`, {
-			method: 'DELETE',
-			credentials: 'include'
-		}).then((res) => res.json());
+	import { goto } from '$app/navigation';
 
-		console.log(rs);
+	import createClient from 'openapi-fetch';
+
+	import type { paths } from '$lib/backend/apiV1/schema';
+
+	type Client = ReturnType<typeof createClient<paths>>;
+
+	const client: Client = createClient<paths>({
+		baseUrl: import.meta.env.VITE_CORE_API_BASE_URL,
+		credentials: 'include'
+	});
+
+	async function logout() {
+		client.DELETE('/api/v1/members/logout');
+
+		goto('/');
 	}
 </script>
 
