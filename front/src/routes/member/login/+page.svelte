@@ -37,6 +37,8 @@
 	}
 </script>
 
+<h1>로그인</h1>
+
 <form on:submit|preventDefault={submitLoginForm}>
 	<div>
 		<label>
