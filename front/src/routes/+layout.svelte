@@ -19,6 +19,7 @@
 		{#if rq.isLogin()}
 			<button type="button" on:click|preventDefault={logout}>로그아웃</button>
 			<a href="/member/me">{rq.member.nickname}님의 정보</a>
+			<a href="/surl/list">SURL 목록</a>
 		{/if}
 		{#if rq.isLogout()}
 			<a href="/member/login">로그인</a>
