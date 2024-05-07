@@ -1,37 +1,25 @@
 <script lang="ts">
-	class GlobalError extends Error {
-		constructor(public rs: any) {
-			super(rs.msg);
-		}
-	}
+	import createClient from 'openapi-fetch';
 
-	type Member = {
-		id: number;
-		createDate: string;
-		modifyDate: string;
-		username: string;
-		nickname: string;
-	};
+	import type { paths, components } from '$lib/backend/apiV1/schema';
 
-	let member: Member | null = $state(null);
+	type Client = ReturnType<typeof createClient<paths>>;
+
+	const client: Client = createClient<paths>({
+		baseUrl: import.meta.env.VITE_CORE_API_BASE_URL,
+		credentials: 'include'
+	});
+
+	let member: components['schemas']['MemberDto'] | null = $state(null);
 	let errorMessage: string | null = $state(null);
 
 	async function getMe() {
-		try {
-			const response = await fetch(`${import.meta.env.VITE_CORE_API_BASE_URL}/api/v1/members/me`, {
-				credentials: 'include'
-			});
+		const { data, error } = await client.GET('/api/v1/members/me');
 
-			const rs = await response.json();
-
-			if (!response.ok) {
-				throw new GlobalError(rs);
-			}
-
-			member = rs.data.item;
-		} catch (error: any) {
-			errorMessage = error.rs.msg;
-			console.error(error.rs);
+		if (data) {
+			member = data.data.item!;
+		} else if (error) {
+			errorMessage = error.msg;
 		}
 	}
 
